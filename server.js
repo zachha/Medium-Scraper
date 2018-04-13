@@ -2,6 +2,7 @@ const request = require('request');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const express = require('express');
+const axios = require('axios');
 const cheerio = require('cheerio');
 const handlebars = require('express-handlebars');
 const PORT = process.env.PORT || 8000;
@@ -23,6 +24,28 @@ var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mongoHeadlines
 mongoose.Promise = Promise;
 mongoose.connect(MONGODB_URI, {
   useMongoClient: true
+});
+
+// GET to scrape reddit webdev subreddit
+app.get("/scrape", (req, res) => {
+  //html body is requested
+  axios.get("http://www.reddit.com/r/webdev/").then((reply) => {
+    //html loads into cheerio 
+    const $ = cheerio.load(reply.data);
+    let result = {};
+    // grabs the title and link for each post on the subreddit
+    $("p.title").each(function(i, element) {
+      reply.title = $(this).text();
+      reply.link = $(this).children().attr("href");
+    //new Article created in the db using reply obj
+    db.Article.create(reply)
+      .then(function(dbArticle) {
+      // logs the article added
+        console.log(dbArticle);
+      }).catch( err => res.json(err));
+    });
+
+  });
 });
 
 app.listen(PORT, function() {
