@@ -10,6 +10,10 @@ const ArticleSchema = new Schema({
         type: String,
         required: true
     },
+    summary: {
+        type: String,
+        required: false
+    },
     // this will store the Note id and this allows us to link an article with a note
     note: {
         type: Schema.Types.ObjectId,

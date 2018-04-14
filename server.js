@@ -26,17 +26,18 @@ mongoose.connect(MONGODB_URI, {
   useMongoClient: true
 });
 
-// GET to scrape reddit webdev subreddit
+// GET to scrape The Washington Post
 app.get("/scrape", (req, res) => {
   //html body is requested
-  axios.get("http://www.reddit.com/r/webdev/").then((reply) => {
+  axios.get("http://www.medium.com/topic/javascript/").then((reply) => {
     //html loads into cheerio 
     const $ = cheerio.load(reply.data);
     let result = {};
     // grabs the title and link for each post on the subreddit
-    $("p.title").each(function(i, element) {
-      reply.title = $(this).text();
-      reply.link = $(this).children().attr("href");
+    $("div.js-trackedPost").each(function(i, element) {
+      reply.title = $(this).children().children('div').children();
+      reply.link = $(this).children().children("a").attr("href");
+      reply.summary = $(this).children().children()
     //new Article created in the db using reply obj
     db.Article.create(reply)
       .then(function(dbArticle) {
