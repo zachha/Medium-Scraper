@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
-const schema = mongoose.Schema;
-const Note = require('Note.js');
+const Schema = mongoose.Schema;
+const NoteSchema = require('./Note.js');
 
 const ArticleSchema = new Schema({
     title: {
@@ -21,7 +21,7 @@ const ArticleSchema = new Schema({
         required: false
     },
     // this will store the Note id and this allows us to link an article with a note
-    note: [Note] 
+    note: [NoteSchema] 
 });
 
 const Article = mongoose.model("Article", ArticleSchema);

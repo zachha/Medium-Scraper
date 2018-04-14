@@ -22,14 +22,14 @@ var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mongoHeadlines
 // Set mongoose to leverage built in JavaScript ES6 Promises
 // Connect to the Mongo DB
 mongoose.Promise = Promise;
-mongoose.connect(MONGODB_URI, {
-  useMongoClient: true
-});
+mongoose.connect(MONGODB_URI, {});
 
 // GET to scrape The Washington Post
 app.get("/scrape", (req, res) => {
   //html body is requested
+  console.log("WORDS");
   axios.get("http://www.medium.com/topic/javascript/").then((reply) => {
+    console.log("inside scrape");
     //html loads into cheerio 
     const $ = cheerio.load(reply.data);
     let result = {};
@@ -47,6 +47,7 @@ app.get("/scrape", (req, res) => {
       .then(function(dbArticle) {
       // logs the article added
         console.log(dbArticle);
+        res.json(dbArticle);
       }).catch( err => res.json(err));
     });
 

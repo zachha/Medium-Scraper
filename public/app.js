@@ -1,7 +1,5 @@
 
-
-
-$.getJSON("/articles", (data) => {
+function addArticles(data)  {
     data.forEach(
     $("#articles").append(
         `<div class="card">
@@ -14,10 +12,20 @@ $.getJSON("/articles", (data) => {
          </div>`
     )
 );
+}
+
+//$.getJSON("/articles", addArticles(res));
+
+$("#scrapeBtn").on('click', function() {
+    console.log("hi");
+    $.ajax({
+        method: "GET",
+        url: "/scrape"
+    }).then( addArticles(data) )
+    .fail( err => console.log(err))
+    .done( () => console.log("scrape done + added!"));
 });
 
-$("#scrapeBtn").on('click', () => {
-    $("#notes").empty();
-    let thisId = $(this).attr("data-id");
-    
-})
+
+//$("#notes").empty();
+//let thisId = $(this).attr("data-id");
