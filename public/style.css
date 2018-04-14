@@ -1,0 +1,31 @@
+#scrapeBtn {
+    margin-left: 15px;
+}
+
+#titleDiv {
+    color: white;
+}
+
+#title {
+    font-weight: stronger;
+    font-size: 100px;
+}
+
+#subtitle {
+    font-weight: stronger;
+    font-size: 20px;
+}
+
+.saveBtn {
+    float: right;
+}
+
+.jumbotron {
+    background-image: url("img/coffee-books.jpg");
+    background-size: cover;
+    height: 600px;
+}
+
+.card {
+    margin: 15px 0px;
+}
