@@ -1,11 +1,11 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-const NoteSchema = require('./Note.js');
 
 const ArticleSchema = new Schema({
     title: {
         type: String,
-        required: true
+        required: true,
+        unique: true
     },
     category: {
         type: String,
@@ -20,8 +20,16 @@ const ArticleSchema = new Schema({
         type: String,
         required: false
     },
+    isSaved: {
+        type: Boolean,
+        default: false,
+        required: true
+    },
     // this will store the Note id and this allows us to link an article with a note
-    note: [NoteSchema] 
+    note: [{
+    type: Schema.Types.ObjectId,
+    ref: "Note"
+  }]
 });
 
 const Article = mongoose.model("Article", ArticleSchema);
