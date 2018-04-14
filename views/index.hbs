@@ -1,0 +1,53 @@
+<nav class="navbar navbar-dark navbar-expand-lg bg-dark">
+    <a class="navbar-brand" href="#">Medium Article Scraper</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+        aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="#">Home
+                    <span class="sr-only">(current)</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Saved Articles</a>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
+                    aria-expanded="false">
+                    Medium Categories
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="#">Javascript Articles</a>
+                    <a class="dropdown-item" href="#">Node.js Articles</a>
+                    <a class="dropdown-item" href="#">Programming Articles</a>
+                </div>
+            </li>
+            <form class="form-inline">
+                <button class="btn btn-light" id="scrapeBtn" type="button">Scrape!</button>
+            </form>
+        </ul>
+    </div>
+    <!-- Navbar content -->
+</nav>
+<div class="jumbotron jumbotron-fluid">
+    <div class="container text-center" id="titleDiv">
+        <h1 class="display-4" id="title">Medium Article Scraper</h1>
+        <p class="lead" id="subtitle">Choose your favorite category from the dropdown, then hit Scrape!</p>
+    </div>
+</div>
+<div class="container col-lg-8 justify-content-center" id="articles">
+    <div class="card">
+        <h5 class="card-header">Featured
+            <button class="btn btn-primary saveBtn">Save Article</button>
+        </h5>
+        <div class="card-body">
+            <h5 class="card-title">Special title treatment</h5>
+            <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+            <a href="#" class="btn btn-primary">Go somewhere</a>
+        </div>
+    </div>
+</div>
