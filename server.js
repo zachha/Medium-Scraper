@@ -35,9 +35,13 @@ app.get("/scrape", (req, res) => {
     let result = {};
     // grabs the title and link for each post on the subreddit
     $("div.js-trackedPost").each(function(i, element) {
-      reply.title = $(this).children().children('div').children();
-      reply.link = $(this).children().children("a").attr("href");
-      reply.summary = $(this).children().children()
+      reply.category = "Javascript";
+      //reply.title = $(this).children().children('div').children();
+      reply.title = $(this).find("a.u-block").attr("aria-label");
+      //reply.link = $(this).children().children("a").attr("href");
+      reply.link = $(this).find("a.u-block").attr("href");
+      //reply.summary = $(this).children().children("div").children("div.flex1").children().children("a").children()
+      reply.summary = $(this).find("h4.ui-summary").text();
     //new Article created in the db using reply obj
     db.Article.create(reply)
       .then(function(dbArticle) {
@@ -47,6 +51,16 @@ app.get("/scrape", (req, res) => {
     });
 
   });
+});
+
+app.get("/articles", (req, re) => {
+  db.Article.find({})
+    .then( (dbArticle) => {
+      res.json(dbArticle);
+    })
+    .catch( (err) => {
+      res.json(err);
+    });
 });
 
 app.listen(PORT, function() {
