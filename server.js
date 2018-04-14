@@ -1,10 +1,10 @@
+const express = require("express");
 const request = require('request');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
-const express = require('express');
-const axios = require('axios');
 const cheerio = require('cheerio');
-const handlebars = require('express-handlebars');
+
+//set PORT
 const PORT = process.env.PORT || 8000;
 
 //models linked
@@ -34,7 +34,7 @@ var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mongoHeadlines
 mongoose.Promise = Promise;
 mongoose.connect(MONGODB_URI, {});
 
-
+// listening for server
 app.listen(PORT, function() {
   console.log("App listening on PORT " + PORT);
 });

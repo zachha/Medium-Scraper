@@ -69,3 +69,5 @@ router.post("/articles/:id", (req, res) => {
   db.Note.
 })
 */
+
+module.exports = router;
