@@ -1,5 +1,6 @@
 $(document).ready(() => {
-    
+    document.getElementById("scrape").disabled = false;
+
     function addArticles(data)  {
         data.forEach( (data) => {
             $("#articles").append(`<div class="card">
@@ -16,7 +17,7 @@ $(document).ready(() => {
 
 //$.getJSON("/articles", addArticles(res));
 
-$("#scrapeBtn").on('click', function() {
+$("#scrapeBtn").on('click', () => {
     console.log("hi");
     $.ajax({ method: "GET",
              url: "/scrape",
@@ -32,5 +33,9 @@ $("#scrapeBtn").on('click', function() {
       })
       .fail(err => console.log(err));
 });
+
+$("#saveBtn").on('click', () => {
+    
+})
 
 });

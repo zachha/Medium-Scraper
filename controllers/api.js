@@ -5,9 +5,12 @@ const router = express.Router();
 const db = require('../models');
 
 
-
 router.get("/", (req, res) => {
-    res.render('index');
+    let hbsObj = { 
+        mainTitle: "Medium Article Scraper",
+        subtitle: "Choose your favorite category from the dropdown, then hit Scrape!"
+    };
+    res.render("index", hbsObj);
 })
 // GET to scrape The Washington Post
 // BUG with the scrape function, not doing what it needs to.
@@ -48,13 +51,7 @@ router.get("/scrape", (req, res) => {
 
 // will search the articles db and populate articles and notes from database
 router.get("/articles", (req, res) => {
-  db.Article.find({})
-    .then(dbArticle => {
-      res.json(dbArticle);
-    })
-    .catch(err => {
-      res.json(err);
-    });
+  
 });
 
 //route for grabbing one article and showing it's notes
@@ -74,4 +71,14 @@ router.post("/articles/:id", (req, res) => {
 })
 */
 
+router.get("/saved", (req, res) => {
+    let hbsObj = { 
+        mainTitle: "Saved Articles",
+        subtitle: "Click the articles to view comments!"
+    };
+    res.render('saved', hbsObj);
+})
+
 module.exports = router;
+
+
