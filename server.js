@@ -17,8 +17,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // handlebars added
 const exphbs = require('express-handlebars');
-app.engine('handlebars', exphbs({ defaultLayout: 'main' }));
-app.set('view engine', 'handlebars');
+app.engine('hbs', exphbs({ defaultLayout: 'main', extname: 'hbs' }));
+app.set('view engine', 'hbs');
 
 // used to serve public folder as static directory
 app.use(express.static('public'));

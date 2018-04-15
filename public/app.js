@@ -1,5 +1,7 @@
-
-function addArticles(data)  {
+$(document).ready(() => {
+    
+    /*
+    function addArticles(data)  {
     data.forEach(
     $("#articles").append(
         `<div class="card">
@@ -11,8 +13,9 @@ function addArticles(data)  {
            </div>
          </div>`
     )
-);
-}
+    );
+    }
+    */
 
 //$.getJSON("/articles", addArticles(res));
 
@@ -26,6 +29,4 @@ $("#scrapeBtn").on('click', function() {
     .done( () => console.log("scrape done + added!"));
 });
 
-
-//$("#notes").empty();
-//let thisId = $(this).attr("data-id");
+});

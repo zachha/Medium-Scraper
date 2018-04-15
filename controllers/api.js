@@ -5,6 +5,10 @@ const router = express.Router();
 const db = require('../models');
 
 
+
+router.get("/", (req, res) => {
+    res.render('index');
+})
 // GET to scrape The Washington Post
 // BUG with the scrape function, not doing what it needs to.
 router.get("/scrape", (req, res) => {
