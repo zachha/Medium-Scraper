@@ -1,7 +1,7 @@
 const db = require('../models');
 
 module.exports = {
-  findAll: () => {
+  findAll: (res) => {
     db.Article.find({})
       .then(dbArticle => {
         res.json(dbArticle);
@@ -11,7 +11,7 @@ module.exports = {
       });
   },
 
-  findSaved: () => {
+  findSaved: (res) => {
     db.Article.find({
       isSaved: true
     })
@@ -23,7 +23,7 @@ module.exports = {
       });
   },
 
-  addArticle: result => {
+  addArticle: (result, res) => {
     db.Article.create(result)
       .then(dbArticle => {
         // logs the article added
@@ -45,7 +45,7 @@ module.exports = {
     );
   },
 
-  showNotes: thisId => {
+  showNotes: (thisId, res) => {
     db.Article.findOne({ _id: thisId })
       .populate("note")
       .then(dbArticle => {
@@ -54,7 +54,7 @@ module.exports = {
       .catch(err => res.json(err));
   },
 
-  createNote: (thisId, noteText) => {
+  createNote: (thisId, noteText, res) => {
     db.Note.create(noteText)
       .then(dbNote => {
         // associates note with article

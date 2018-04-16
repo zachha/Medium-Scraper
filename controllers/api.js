@@ -36,7 +36,7 @@ router.get("/scrape", (req, res) => {
         .text();
       //new Article created in the db using reply obj
       if((result.link) && (result.title)) {
-        adb.addArticle(result);
+        adb.addArticle(result, res);
       }
     });
   });
@@ -44,32 +44,32 @@ router.get("/scrape", (req, res) => {
 
 // will search the articles db and populate articles and notes from database
 router.get("/articles", (req, res) => {
-    adb.findAll();
+    adb.findAll(res);
 });
 
 //route for grabbing one article and showing it's notes
 router.get("/articles/:id", (req, res) => {
   let thisId = req.params.id;
-  adb.showNotes(thisId);
+  adb.showNotes(thisId, res);
 });
 
 //route to update an article to be Saved
 router.put("/articles/:id", (req, res) => {
     let thisId = req.params.id;
-    adb.saveArticle(thisId);
+    adb.saveArticle(thisId, res);
 })
 
 //route to update an article to unsave it
 router.put("/articles/:id", (req, res) => {
     let thisId = req.params.id;
-    adb.unsaveArticle(thisId);
+    adb.unsaveArticle(thisId, res);
 })
 
 // route for adding article note
 router.post("/articles/:id", (req, res) => {
     let thisId = req.params.id;
     let noteText = req.body;
-    adb.createNote(thisId, noteText);
+    adb.createNote(thisId, noteText, res);
 })
 
 // finds all saved articles
@@ -79,7 +79,7 @@ router.get("/saved", (req, res) => {
         subtitle: "Click the articles to view comments!"
     };
     res.render('index', hbsObj);
-    adb.findSaved();
+    adb.findSaved(res);
 })
 
 module.exports = router;

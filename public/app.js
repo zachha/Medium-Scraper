@@ -1,7 +1,7 @@
 $(document).ready(() => {
     document.getElementById("scrapeBtn").disabled = false;
 
-    function addArticles(data)  {
+    function addArticles(data, articleDiv)  {
         data.forEach( (data, articleDiv) => {
             $("#" + articleDiv).append(`<div class="card">
                     <h5 class="card-header" data-id=${data._id}>${data.category}</h5>
