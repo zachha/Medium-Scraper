@@ -2,7 +2,7 @@ const cheerio = require('cheerio');
 const request = require('request');
 const express = require('express');
 const router = express.Router();
-const db = require('../models');
+const adb = require("../articleController");
 
 
 router.get("/", (req, res) => {
@@ -37,13 +37,7 @@ router.get("/scrape", (req, res) => {
         .text();
       //new Article created in the db using reply obj
       if((result.link) && (result.title)) {
-        db.Article.create(result)
-          .then(function(dbArticle) {
-            // logs the article added
-            console.log(dbArticle);
-            res.json(dbArticle);
-          })
-          .catch(err => res.json(err));
+        // ADD ARTICLE
       }
     });
   });
@@ -51,25 +45,23 @@ router.get("/scrape", (req, res) => {
 
 // will search the articles db and populate articles and notes from database
 router.get("/articles", (req, res) => {
-  
+    adb.findAll();
 });
 
 //route for grabbing one article and showing it's notes
 router.get("/articles/:id", (req, res) => {
-  db.Article.findOne({ _id: req.params.id })
-    .populate("note")
-    .then(function(dbArticle) {
-      res.json(dbArticle);
-    })
-    .catch(err => res.json(err));
+  // SHOW NOTES OF ARTICLE
+  let thisId = req.params.id;
 });
 
-/*
+
 // add route for adding article note
 router.post("/articles/:id", (req, res) => {
-  db.Note.
+    let thisId = req.params.id;
+    let noteText = req.body;
+  // ADD NOTE 
 })
-*/
+
 
 router.get("/saved", (req, res) => {
     let hbsObj = { 
