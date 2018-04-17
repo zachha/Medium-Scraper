@@ -48,11 +48,8 @@ $(document).ready(() => {
         event.preventDefault();
         let btnId = $(this).attr('data-id');
         let that = this;
-        console.log($(that).parent('div'));
         $.ajax({ method: "PUT", url: `/articles/${btnId}/save` })
           .done(() => {
-            //console.log("Article Saved!");
-            console.log("that: " + that);
             $(that).closest("div").parent('div').toggle();
           })
           .fail(err => console.log("Could not save! Err: " + err));
@@ -64,9 +61,7 @@ $(document).ready(() => {
          let btnId = $(this).attr("data-id");
          let that = this;
        $.ajax({ method: "PUT", url: `/articles/${btnId}/unsave`})
-         .done((data, that) => {
-           //console.log("Article Removed From Saved!");
-           console.log("that is: " + that);
+         .done(() => {
            $(that).closest("div").parent('div').toggle();
          })
          .fail(err =>

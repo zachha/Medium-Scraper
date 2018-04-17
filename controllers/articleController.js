@@ -40,14 +40,14 @@ module.exports = {
       .catch(err => res.json(err));
   },
 
-  saveArticle: thisId => {
+  saveArticle: (thisId, res) => {
     db.Article.update({ _id: thisId }, { $set: { isSaved: true } }, () => {
       console.log("Article saved!");
       res.end();
     });
   },
 
-  unsaveArticle: thisId => {
+  unsaveArticle: (thisId, res) => {
     db.Article.update({ _id: thisId }, { $set: { isSaved: false } }, () => {
       console.log("Article no longer saved!");
       res.end();
@@ -81,7 +81,7 @@ module.exports = {
       });
   },
 
-  deleteNote: thisId => {
+  deleteNote: (res, thisId) => {
     db.Note.deleteOne({
       _id: thisId
     }).then(() => {
