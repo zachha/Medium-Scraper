@@ -7,13 +7,11 @@ const router = express.Router();
 const adb = require("./articleController");
 
 // GET route for main page, populate sthe titles appropriately
+
 router.get("/", (req, res) => {
-    let hbsObj = { 
-        mainTitle: "Medium Article Scraper",
-        subtitle: "Choose your favorite category from the dropdown, then hit Scrape!"
-    };
-    res.render("index", hbsObj);
+    adb.findAll(res);
 })
+
 
 // GET to scrape The Washington Post
 router.get("/scrape", (req, res) => {
@@ -54,31 +52,30 @@ router.get("/articles/:id", (req, res) => {
 });
 
 //route to update an article to be Saved
-router.put("/articles/:id", (req, res) => {
+router.put("/articles/:id/save", (req, res) => {
     let thisId = req.params.id;
     adb.saveArticle(thisId, res);
 })
 
 //route to update an article to unsave it
-router.put("/articles/:id", (req, res) => {
+router.put("/articles/:id/unsave", (req, res) => {
     let thisId = req.params.id;
     adb.unsaveArticle(thisId, res);
 })
 
 // route for adding article note
-router.post("/articles/:id", (req, res) => {
+router.post("/articles/:id/addnote", (req, res) => {
     let thisId = req.params.id;
     let noteText = req.body;
     adb.createNote(thisId, noteText, res);
 })
 
+router.get("/savedArticles", (req, res) => {
+    
+})
+
 // finds all saved articles
 router.get("/saved", (req, res) => {
-    let hbsObj = { 
-        mainTitle: "Saved Articles",
-        subtitle: "Click the articles to view comments!"
-    };
-    res.render('index', hbsObj);
     adb.findSaved(res);
 })
 

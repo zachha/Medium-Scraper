@@ -4,7 +4,8 @@ module.exports = {
   findAll: (res) => {
     db.Article.find({})
       .then(dbArticle => {
-        res.json(dbArticle);
+          let hbsObj = { mainTitle: "Medium Article Scraper", subtitle: "Choose your favorite category from the dropdown, then hit Scrape!", articles: dbArticle };
+          res.render("index", hbsObj);
       })
       .catch(err => {
         res.json(err);
@@ -12,11 +13,13 @@ module.exports = {
   },
 
   findSaved: (res) => {
-    db.Article.find({
-      isSaved: true
-    })
+      db.Article.find({
+        isSaved: true
+      })
       .then(dbArticle => {
-        res.json(dbArticle);
+        let hbsObj = { mainTitle: "Saved Articles", subtitle: "Click the articles to view comments!", savedArticles: dbArticle };
+        res.render("index", hbsObj);
+        //res.json(dbArticle);
       })
       .catch(err => {
         res.json(err);

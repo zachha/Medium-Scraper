@@ -22,7 +22,7 @@ app.set('view engine', 'hbs');
 
 // used to serve public folder as static directory
 app.use(express.static('public'));
-//Controllers added
+//router added
 const router = require('./controllers/api.js');
 app.use(router);
 
