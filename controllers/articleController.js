@@ -1,11 +1,16 @@
 const db = require('../models');
 
 module.exports = {
-  findAll: (res) => {
+  findAll: (res, route) => {
     db.Article.find({})
       .then(dbArticle => {
-          let hbsObj = { mainTitle: "Medium Article Scraper", subtitle: "Choose your favorite category from the dropdown, then hit Scrape!", articles: dbArticle };
-          res.render("index", hbsObj);
+          if(route) {
+              let hbsObj = { mainTitle: "Medium Article Scraper", subtitle: "Choose your favorite category from the dropdown, then hit Scrape!", articles: dbArticle };
+              res.render("index", hbsObj);
+          } else {
+              res.json(dbArticle);
+          }
+          
       })
       .catch(err => {
         res.json(err);

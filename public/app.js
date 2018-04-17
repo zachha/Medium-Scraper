@@ -44,38 +44,32 @@ $(document).ready(() => {
     });
 
     // saves an article, changes layout to show/add notes and button to remove save
-    $(".saveArticle").on('click', () => {
+    $(".saveArticle").on('click', function() {
         event.preventDefault();
         let btnId = $(this).attr('data-id');
         console.log(btnId);
-        $.put(`/articles/${btnId}/save`, (req, res) => {})
-          .then(() => {
+        let that = this;
+        $.ajax({ method: "PUT", url: `/articles/${btnId}/save` })
+          .success(() => {
             console.log("Article Saved!");
-            $(this).text("Remove Saved");
-            $(this).removeClass("saveArticle");
-            $(this).addClass("saved");
+            $(that).parents(".cardTop").toggle();
           })
           .fail(err => console.log("Could not save! Err: " + err));
     });
 
     // removes saved article and changes layout back to unsaved div
-     $(".saved").on("click", () => {
+     $(".saved").on("click", function() {
          event.preventDefault();
          let btnId = $(this).attr("data-id");
          console.log(btnId);
-       $.put(`/articles/${btnId}/unsave`, (req, res) => {})
-         .then(() => {
+       $.ajax({ method: "PUT", url: `/articles/${btnId}/unsave`})
+         .success(() => {
            console.log("Article Removed From Saved!");
-           $(this).text("Save Article");
-           $(this).removeClass("saved");
-           $(this).addClass("saveArticle");
+           $(that).parents(".cardTop").toggle();
          })
          .fail(err =>
            console.log("Could not remove from saved! Err: " + err)
          );
      });
-
-
-
 
 });

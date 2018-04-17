@@ -9,7 +9,8 @@ const adb = require("./articleController");
 // GET route for main page, populate sthe titles appropriately
 
 router.get("/", (req, res) => {
-    adb.findAll(res);
+    let route = true;
+    adb.findAll(res, route);
 })
 
 
@@ -42,7 +43,8 @@ router.get("/scrape", (req, res) => {
 
 // will search the articles db and populate articles and notes from database
 router.get("/articles", (req, res) => {
-    adb.findAll(res);
+    let route = false;
+    adb.findAll(res, route);
 });
 
 //route for grabbing one article and showing it's notes
