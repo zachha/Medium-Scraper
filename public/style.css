@@ -16,8 +16,13 @@
     font-size: 20px;
 }
 
-.saveBtn {
+.saveArticle {
     float: right;
+}
+
+.saved {
+    float: right;
+    background-color: red;
 }
 
 .dropdown {

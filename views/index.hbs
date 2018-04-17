@@ -13,7 +13,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="/saved" id="savedBtn">Saved Articles</a>
+                <a class="nav-link" id="savedBtn" href="/saved">Saved Articles</a>
             </li>
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
@@ -39,6 +39,11 @@
         <p class="lead" id="subtitle">{{subtitle}}</p>
     </div>
 </div>
-<div class="container col-lg-8 justify-content-center" id="articles"></div>
-<!-- article div will hold the article cards as they populate -->
-<div class="container col-lg-8 justify-content-center" id="savedArticles"></div>
+<!-- this will hold the regular (unsaved) articles when they get called in -->
+<div class="container col-lg-8 justify-content-center" id="articles">
+{{> regular}}
+</div>
+<!-- this will hold the saved articles when they get called in -->
+<div class="container col-lg-8 justify-content-center" id="savedArticles">
+{{> saved}}
+</div>
