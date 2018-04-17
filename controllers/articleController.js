@@ -2,15 +2,14 @@ const db = require('../models');
 
 module.exports = {
   findAll: (res, route) => {
-    db.Article.find({})
+    db.Article.find({ isSaved: false })
       .then(dbArticle => {
-          if(route) {
-              let hbsObj = { mainTitle: "Medium Article Scraper", subtitle: "Choose your favorite category from the dropdown, then hit Scrape!", articles: dbArticle };
-              res.render("index", hbsObj);
-          } else {
-              res.json(dbArticle);
-          }
-          
+        if (route) {
+          let hbsObj = { mainTitle: "Medium Article Scraper", subtitle: "Choose your favorite category from the dropdown, then hit Scrape!", articles: dbArticle };
+          res.render("index", hbsObj);
+        } else {
+          res.json(dbArticle);
+        }
       })
       .catch(err => {
         res.json(err);
@@ -42,15 +41,17 @@ module.exports = {
   },
 
   saveArticle: thisId => {
-    db.Article.update({ _id: thisId }, { $set: { isSaved: true } }, () =>
-      console.log("Article saved!")
-    );
+    db.Article.update({ _id: thisId }, { $set: { isSaved: true } }, () => {
+      console.log("Article saved!");
+      res.end();
+    });
   },
 
   unsaveArticle: thisId => {
-    db.Article.update({ _id: thisId }, { $set: { isSaved: false } }, () =>
-      console.log("Article no longer saved!")
-    );
+    db.Article.update({ _id: thisId }, { $set: { isSaved: false } }, () => {
+      console.log("Article no longer saved!");
+      res.end();
+    });
   },
 
   showNotes: (thisId, res) => {
@@ -85,6 +86,7 @@ module.exports = {
       _id: thisId
     }).then(() => {
       console.log("comment deleted");
+      res.end();
     });
   }
 };

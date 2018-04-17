@@ -47,12 +47,13 @@ $(document).ready(() => {
     $(".saveArticle").on('click', function() {
         event.preventDefault();
         let btnId = $(this).attr('data-id');
-        console.log(btnId);
         let that = this;
+        console.log($(that).parent('div'));
         $.ajax({ method: "PUT", url: `/articles/${btnId}/save` })
-          .success(() => {
-            console.log("Article Saved!");
-            $(that).parents(".cardTop").toggle();
+          .done(() => {
+            //console.log("Article Saved!");
+            console.log("that: " + that);
+            $(that).closest("div").parent('div').toggle();
           })
           .fail(err => console.log("Could not save! Err: " + err));
     });
@@ -61,11 +62,12 @@ $(document).ready(() => {
      $(".saved").on("click", function() {
          event.preventDefault();
          let btnId = $(this).attr("data-id");
-         console.log(btnId);
+         let that = this;
        $.ajax({ method: "PUT", url: `/articles/${btnId}/unsave`})
-         .success(() => {
-           console.log("Article Removed From Saved!");
-           $(that).parents(".cardTop").toggle();
+         .done((data, that) => {
+           //console.log("Article Removed From Saved!");
+           console.log("that is: " + that);
+           $(that).closest("div").parent('div').toggle();
          })
          .fail(err =>
            console.log("Could not remove from saved! Err: " + err)
