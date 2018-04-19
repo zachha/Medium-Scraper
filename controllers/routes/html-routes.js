@@ -10,7 +10,7 @@ const adb = require("../articleController");
 
 router.get("/", (req, res) => {
     let route = true;
-    adb.findAll(res, route);
+    adb.findAllFalse(res, route);
 })
 
 
@@ -44,7 +44,11 @@ router.get("/scrape", (req, res) => {
 // will search the articles db and populate articles and notes from database
 router.get("/articles", (req, res) => {
     let route = false;
-    adb.findAll(res, route);
+    adb.findAllFalse(res, route);
+});
+
+router.get("/api/articles", (req, res) => {
+  adb.findAll(res);
 });
 
 //route for grabbing one article and showing it's notes
@@ -68,7 +72,8 @@ router.put("/articles/:id/unsave", (req, res) => {
 // route for adding article note
 router.post("/articles/:id/addnote", (req, res) => {
     let thisId = req.params.id;
-    let noteText = req.body;
+    let noteText = req.body.userComment;
+    console.log(noteText);
     adb.createNote(thisId, noteText, res);
 })
 
