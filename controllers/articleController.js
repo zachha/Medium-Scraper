@@ -109,10 +109,13 @@ module.exports = {
       .then(dbNote => {
         // associates note with article
         db.Article.findOneAndUpdate(
-          { _id: req.params.id },
+          { _id: thisId },
           { note: dbNote._id },
           { new: true }
-        );
+        )
+        .then(results => console.log("association was a success!"))
+        .catch(err => console.log(err));
+        
         console.log(`comment added to article: ${thisId}!`);
         console.log(`comment: ${noteText}`);
         res.json(dbNote);
@@ -121,9 +124,12 @@ module.exports = {
         // res.json(dbArticle);
       })
       .catch(err => {
+        console.log("error creating note");
+        console.log(err);
         res.json(err);
       });
   },
+
  // deletes a note and removes it from the article
   deleteNote: (res, thisId) => {
     db.Note.deleteOne({

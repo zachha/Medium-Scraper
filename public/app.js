@@ -3,8 +3,8 @@ $(document).ready(() => {
     function addNewComment (notesBody, notesId) {
       return $("#notesDiv").append(`
                   <div class="comment">
-                    <p>${notes.body}</p>
-                    <button type="button" class="deleteComment" aria-label="Close" data-id=${notes._id}>
+                    <p>${notesBody}</p>
+                    <button type="button" class="deleteComment" aria-label="Close" data-id=${notesId}>
                       <span aria-hidden="true">&times;</span>
                     </button>
                   </div>`);
@@ -107,22 +107,25 @@ $(document).ready(() => {
          .fail(err => console.log(err));
      })
 
-  $("#commentSubmit").on('submit', function(e) {
+  // submits comment to be added as a note for the article
+  $("#commentSubmit").on('click', function(e) {
     e.preventDefault();
     let thisId = $(this).attr("data-id");
     console.log(thisId);
-    console.log("anything");
-    $.post(`/articles/${thisId}/addnote`, (req, res) => {})
+    $.ajax({method: "POST", url:`/articles/${thisId}/addnote`, data: {body: $("#commentInput").val() }})
     .done( (note) => {
-      console.log(note);
       let noteBody = note.body;
       let noteId = note._id;
+      console.log(noteBody);
+      console.log(noteId);
       if(document.getElementById("noComment")) {
         $("#notesDiv").html(addNewComment(noteBody, noteId))
         console.log("new comment!");
       } else {$("#notesDiv").append(addNewComment(noteBody, noteId))
         console.log("new comment, added to other comments");
       }
+      // empties the input after ajax call
+      $("#commentInput").val("");
     })
     .catch(err => console.log(err));
   })

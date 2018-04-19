@@ -6,8 +6,8 @@ const router = express.Router();
 // links the model controller
 const adb = require("../articleController");
 
-// GET route for main page, populate sthe titles appropriately
 
+// GET route for main page, populate sthe titles appropriately
 router.get("/", (req, res) => {
     let route = true;
     adb.findAllFalse(res, route);
@@ -47,6 +47,7 @@ router.get("/articles", (req, res) => {
     adb.findAllFalse(res, route);
 });
 
+// api route for all articles
 router.get("/api/articles", (req, res) => {
   adb.findAll(res);
 });
@@ -71,8 +72,10 @@ router.put("/articles/:id/unsave", (req, res) => {
 
 // route for adding article note
 router.post("/articles/:id/addnote", (req, res) => {
+    console.log("testing");
     let thisId = req.params.id;
-    let noteText = req.body.userComment;
+    let noteText = req.body;
+    console.log(thisId);
     console.log(noteText);
     adb.createNote(thisId, noteText, res);
 })
