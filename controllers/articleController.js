@@ -1,7 +1,9 @@
 const db = require('../models');
 
 module.exports = {
-  findAll: (res, route) => {
+
+  // Finds all NON saved articles to populate the Home page with, also populates Main Title and Subtitle appropriately
+  findAllFalse: (res, route) => {
     db.Article.find({ isSaved: false })
       .then(dbArticle => {
         if (route) {
@@ -22,6 +24,7 @@ module.exports = {
       });
   },
 
+  //finds one article by id and returns it to ID route endpount
   findOne: (thisId, res) => {
     db.Article.findOne({
       _id: thisId
@@ -34,6 +37,18 @@ module.exports = {
       });
   },
 
+  // Finds all articles and returns to API route endpoint
+  findAll: (res) => {
+    db.Article.find({})
+      .then(dbArticle => {
+        res.send(dbArticle);
+      })
+      .catch(err => {
+        res.json(err);
+      });
+  },
+
+  // Finds all SAVED Articles and populates Saved Page Title and Subtitle appropriately
   findSaved: res => {
     db.Article.find({
       isSaved: true
@@ -52,6 +67,7 @@ module.exports = {
       });
   },
 
+  // Adds new articles when scrape is used
   addArticle: (result, res) => {
     db.Article.create(result)
       .then(dbArticle => {
@@ -62,13 +78,14 @@ module.exports = {
       .catch(err => res.json(err));
   },
 
+  // updates an article to become 'saved' by the user 
   saveArticle: (thisId, res) => {
     db.Article.update({ _id: thisId }, { $set: { isSaved: true } }, () => {
       console.log("Article saved!");
       res.end();
     });
   },
-
+ // updates an article to remove 'saved' 
   unsaveArticle: (thisId, res) => {
     db.Article.update({ _id: thisId }, { $set: { isSaved: false } }, () => {
       console.log("Article no longer saved!");
@@ -76,6 +93,7 @@ module.exports = {
     });
   },
 
+ // shows all notes from a specified article using it's ID
   showNotes: (thisId, res) => {
     db.Article.findOne({ _id: thisId })
       .populate("note")
@@ -85,24 +103,28 @@ module.exports = {
       .catch(err => res.json(err));
   },
 
+  // Creates a new note and associates it to the appropriate article
   createNote: (thisId, noteText, res) => {
     db.Note.create(noteText)
       .then(dbNote => {
         // associates note with article
-        return db.Article.findOneAndUpdate(
+        db.Article.findOneAndUpdate(
           { _id: req.params.id },
           { note: dbNote._id },
           { new: true }
         );
-      })
-      .then(dbArticle => {
-        res.json(dbArticle);
+        console.log(`comment added to article: ${thisId}!`);
+        console.log(`comment: ${noteText}`);
+        res.json(dbNote);
+        //})
+        //.then(dbArticle => {
+        // res.json(dbArticle);
       })
       .catch(err => {
         res.json(err);
       });
   },
-
+ // deletes a note and removes it from the article
   deleteNote: (res, thisId) => {
     db.Note.deleteOne({
       _id: thisId
