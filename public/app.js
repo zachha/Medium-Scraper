@@ -1,5 +1,14 @@
 $(document).ready(() => {
 
+    function addNewComment (notesBody, notesId) {
+      return $("#notesDiv").append(`
+                  <div class="comment">
+                    <p>${notes.body}</p>
+                    <button type="button" class="deleteComment" aria-label="Close" data-id=${notes._id}>
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>`);
+    }
     // On click event for Scrape, scrapes Medium for new articles and adds them to the database if they aren't in it then populates cards for each article
     $("#scrapeBtn").on("click", () => {
       $.get("/scrape", (req, res) => {})
@@ -77,23 +86,18 @@ $(document).ready(() => {
            console.log(article);
            $("#notesDiv").html("");
            $("#commentBoxTitle").text(`${article.title} Comments`);
-           $("#commentBtn").attr("data-id", `${article._id}`);
+           $("#commentSubmit").attr("data-id", `${article._id}`);
            console.log(article.note);
            // if there are notes for the article, create divs showing the comments, if empty, create a div saying there are none
            if(article.note.length > 1) {
              for (notes in article.note) {
-                $("#notesDiv").append(`
-                  <div class="comment">
-                    <p>${notes.body}</p>
-                    <button type="button" class="deleteComment" aria-label="Close" data-id=${notes._id}>
-                      <span aria-hidden="true">&times;</span>
-                    </button>
-                  </div>`
-                );
-             }
+               let noteBody = notes.body;
+               let noteId = notes._id;
+               addNewComment(noteBody, noteId);             
+              }
             } else  {
              $("#notesDiv").append(`
-             <div>
+             <div id="noComment">
                 <p>No comments found for this article!</p>
              </div>
             `)}
@@ -101,7 +105,26 @@ $(document).ready(() => {
            $("#comments").modal('toggle');
          })
          .fail(err => console.log(err));
-
      })
+
+  $("#commentSubmit").on('submit', function(e) {
+    e.preventDefault();
+    let thisId = $(this).attr("data-id");
+    console.log(thisId);
+    console.log("anything");
+    $.post(`/articles/${thisId}/addnote`, (req, res) => {})
+    .done( (note) => {
+      console.log(note);
+      let noteBody = note.body;
+      let noteId = note._id;
+      if(document.getElementById("noComment")) {
+        $("#notesDiv").html(addNewComment(noteBody, noteId))
+        console.log("new comment!");
+      } else {$("#notesDiv").append(addNewComment(noteBody, noteId))
+        console.log("new comment, added to other comments");
+      }
+    })
+    .catch(err => console.log(err));
+  })
 
 });
