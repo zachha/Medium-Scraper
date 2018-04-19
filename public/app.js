@@ -80,7 +80,7 @@ $(document).ready(() => {
            $("#commentBtn").attr("data-id", `${article._id}`);
            console.log(article.note);
            // if there are notes for the article, create divs showing the comments, if empty, create a div saying there are none
-           if(article.note.length < 1) {
+           if(article.note.length > 1) {
              for (notes in article.note) {
                 $("#notesDiv").append(`
                   <div class="comment">
