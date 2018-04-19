@@ -1,13 +1,14 @@
 $(document).ready(() => {
 
     function addNewComment (notesBody, notesId) {
-      return $("#notesDiv").append(`
+      return `
                   <div class="comment">
-                    <p>${notesBody}</p>
-                    <button type="button" class="deleteComment" aria-label="Close" data-id=${notesId}>
-                      <span aria-hidden="true">&times;</span>
-                    </button>
-                  </div>`);
+                    <p>${notesBody}
+                      <button type="button" class="deleteComment" aria-label="Close" data-id=${notesId}>
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </p>
+                  </div>`;
     }
     // On click event for Scrape, scrapes Medium for new articles and adds them to the database if they aren't in it then populates cards for each article
     $("#scrapeBtn").on("click", () => {
@@ -81,7 +82,7 @@ $(document).ready(() => {
        event.preventDefault();
        let btnId = $(this).attr("data-id");
        let that = this;
-       $.get(`/articles/${btnId}`, (req, res) => {})
+       $.get(`/articles/${btnId}/notes`, (req, res) => {})
          .done((article) => {
            console.log(article);
            $("#notesDiv").html("");
@@ -89,12 +90,13 @@ $(document).ready(() => {
            $("#commentSubmit").attr("data-id", `${article._id}`);
            console.log(article.note);
            // if there are notes for the article, create divs showing the comments, if empty, create a div saying there are none
-           if(article.note.length > 1) {
-             for (notes in article.note) {
-               let noteBody = notes.body;
-               let noteId = notes._id;
-               addNewComment(noteBody, noteId);             
-              }
+           if(article.note.length > 0) {
+             article.note.forEach((note) => {
+               console.log(note);
+                 let noteBody = note.body;
+                 let noteId = note._id;
+                 $("#notesDiv").append(addNewComment(noteBody, noteId));
+               }) 
             } else  {
              $("#notesDiv").append(`
              <div id="noComment">

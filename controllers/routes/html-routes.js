@@ -72,12 +72,21 @@ router.put("/articles/:id/unsave", (req, res) => {
 
 // route for adding article note
 router.post("/articles/:id/addnote", (req, res) => {
-    console.log("testing");
     let thisId = req.params.id;
     let noteText = req.body;
-    console.log(thisId);
-    console.log(noteText);
     adb.createNote(thisId, noteText, res);
+})
+
+// route for deleting notes and removing them from linked article
+router.put("/articles/:id/deletenote", (req, res) => {
+  let thisId = req.params.id;
+  adb.deleteNote(thisId, res);
+})
+
+// route for showing all of an article's notes/comments
+router.get("/articles/:id/notes", (req, res) => {
+  let thisId = req.params.id;
+  adb.showNotes(thisId, res);
 })
 
 // finds all saved articles

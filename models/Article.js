@@ -26,10 +26,12 @@ const ArticleSchema = new Schema({
         required: true
     },
     // this will store the Note id and this allows us to link an article with a note
-    note: [{
-    type: Schema.Types.ObjectId,
-    ref: "Note"
-  }]
+    note: {
+    type: [{ 
+        type: Schema.Types.ObjectId,
+        ref: "Note"
+    }]
+    }
 });
 
 const Article = mongoose.model("Article", ArticleSchema);

@@ -96,7 +96,10 @@ module.exports = {
  // shows all notes from a specified article using it's ID
   showNotes: (thisId, res) => {
     db.Article.findOne({ _id: thisId })
-      .populate("note")
+      .populate({
+          path: "note",
+          model: "Note"
+        })
       .then(dbArticle => {
         res.json(dbArticle);
       })
@@ -110,12 +113,12 @@ module.exports = {
         // associates note with article
         db.Article.findOneAndUpdate(
           { _id: thisId },
-          { note: dbNote._id },
+          {$push:  {note: dbNote._id }},
           { new: true }
         )
         .then(results => console.log("association was a success!"))
         .catch(err => console.log(err));
-        
+
         console.log(`comment added to article: ${thisId}!`);
         console.log(`comment: ${noteText}`);
         res.json(dbNote);
@@ -131,12 +134,17 @@ module.exports = {
   },
 
  // deletes a note and removes it from the article
-  deleteNote: (res, thisId) => {
-    db.Note.deleteOne({
-      _id: thisId
-    }).then(() => {
-      console.log("comment deleted");
-      res.end();
-    });
+  deleteNote: (thisId, res) => {
+     db.Note.findByIdAndRemove({
+          _id: thisId 
+        })
+       .then((dbNote) => {
+         return db.Article.findOneAndUpdate(
+            {note: thisId },
+            { $pullAll: [{ note: thisId }] }
+        );
+       })
+       .then(dbArticle => res.json(dbArticle))
+       .catch(err => res.json(err));
   }
 };
