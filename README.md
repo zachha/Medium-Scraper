@@ -4,7 +4,7 @@
 
 Medium Scraper is a Node.js based web application that uses the npm packages 'request' and 'cheerio' to scrape articles from the website Medium.  The application is powered by MongoDB, which stores all of the scraped articles and allows the user to save/unsave articles and to add or delete comments on any saved article!
 
-You can see the website in action here: [Medium Scraper]("deployed application")
+You can see the website in action here: [Medium Scraper](https://lit-springs-23151.herokuapp.com/ "deployed application")
 
 ## Feature Overview
 
