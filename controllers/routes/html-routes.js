@@ -79,6 +79,7 @@ router.post("/articles/:id/addnote", (req, res) => {
 
 // route for deleting notes and removing them from linked article
 router.put("/articles/:id/deletenote", (req, res) => {
+  console.log("test");
   let thisId = req.params.id;
   adb.deleteNote(thisId, res);
 })

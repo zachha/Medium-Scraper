@@ -139,6 +139,7 @@ module.exports = {
           _id: thisId 
         })
        .then((dbNote) => {
+         console.log('note deleted!');
          return db.Article.findOneAndUpdate(
             {note: thisId },
             { $pullAll: [{ note: thisId }] }
