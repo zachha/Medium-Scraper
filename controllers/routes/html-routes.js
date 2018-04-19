@@ -4,7 +4,7 @@ const express = require('express');
 const bodyParser = require("body-parser");
 const router = express.Router();
 // links the model controller
-const adb = require("./articleController");
+const adb = require("../articleController");
 
 // GET route for main page, populate sthe titles appropriately
 
@@ -50,7 +50,7 @@ router.get("/articles", (req, res) => {
 //route for grabbing one article and showing it's notes
 router.get("/articles/:id", (req, res) => {
   let thisId = req.params.id;
-  adb.showNotes(thisId, res);
+  adb.findOne(thisId, res);
 });
 
 //route to update an article to be Saved
@@ -70,10 +70,6 @@ router.post("/articles/:id/addnote", (req, res) => {
     let thisId = req.params.id;
     let noteText = req.body;
     adb.createNote(thisId, noteText, res);
-})
-
-router.get("/savedArticles", (req, res) => {
-    
 })
 
 // finds all saved articles

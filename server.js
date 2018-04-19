@@ -23,7 +23,7 @@ app.set('view engine', 'hbs');
 // used to serve public folder as static directory
 app.use(express.static('public'));
 //router added
-const router = require('./controllers/api.js');
+const router = require('./controllers/routes/html-routes.js');
 app.use(router);
 
 // If deployed, use the deployed database. Otherwise use the local mongoHeadlines database
