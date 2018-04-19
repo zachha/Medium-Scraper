@@ -5,9 +5,15 @@ module.exports = {
     db.Article.find({ isSaved: false })
       .then(dbArticle => {
         if (route) {
-          let hbsObj = { mainTitle: "Medium Article Scraper", subtitle: "Choose your favorite category from the dropdown, then hit Scrape!", articles: dbArticle };
+          let hbsObj = {
+            mainTitle: "Medium Article Scraper",
+            subtitle:
+              "Choose your favorite category from the dropdown, then hit Scrape!",
+            articles: dbArticle
+          };
           res.render("index", hbsObj);
         } else {
+          console.log("test");
           res.json(dbArticle);
         }
       })
@@ -16,12 +22,28 @@ module.exports = {
       });
   },
 
-  findSaved: (res) => {
-      db.Article.find({
-        isSaved: true
-      })
+  findOne: (thisId, res) => {
+    db.Article.findOne({
+      _id: thisId
+    })
       .then(dbArticle => {
-        let hbsObj = { mainTitle: "Saved Articles", subtitle: "Click the articles to view comments!", savedArticles: dbArticle };
+        res.send(dbArticle);
+      })
+      .catch(err => {
+        res.json(err);
+      });
+  },
+
+  findSaved: res => {
+    db.Article.find({
+      isSaved: true
+    })
+      .then(dbArticle => {
+        let hbsObj = {
+          mainTitle: "Saved Articles",
+          subtitle: "Click the articles to view comments!",
+          savedArticles: dbArticle
+        };
         res.render("index", hbsObj);
         //res.json(dbArticle);
       })

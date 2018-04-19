@@ -2,7 +2,6 @@ $(document).ready(() => {
 
     // On click event for Scrape, scrapes Medium for new articles and adds them to the database if they aren't in it then populates cards for each article
     $("#scrapeBtn").on("click", () => {
-      console.log("hi");
       $.get("/scrape", (req, res) => {})
         .done(data => {
           console.log("scrape done, pulling from db!");
@@ -68,5 +67,41 @@ $(document).ready(() => {
            console.log("Could not remove from saved! Err: " + err)
          );
      });
+     // toggles the comments modal to show saved comments for the specified article
+     $(".seeNotes").on('click', function() {
+       event.preventDefault();
+       let btnId = $(this).attr("data-id");
+       let that = this;
+       $.get(`/articles/${btnId}`, (req, res) => {})
+         .done((article) => {
+           console.log(article);
+           $("#notesDiv").html("");
+           $("#commentBoxTitle").text(`${article.title} Comments`);
+           $("#commentBtn").attr("data-id", `${article._id}`);
+           console.log(article.note);
+           // if there are notes for the article, create divs showing the comments, if empty, create a div saying there are none
+           if(article.note.length < 1) {
+             for (notes in article.note) {
+                $("#notesDiv").append(`
+                  <div class="comment">
+                    <p>${notes.body}</p>
+                    <button type="button" class="deleteComment" aria-label="Close" data-id=${notes._id}>
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>`
+                );
+             }
+            } else  {
+             $("#notesDiv").append(`
+             <div>
+                <p>No comments found for this article!</p>
+             </div>
+            `)}
+
+           $("#comments").modal('toggle');
+         })
+         .fail(err => console.log(err));
+
+     })
 
 });
