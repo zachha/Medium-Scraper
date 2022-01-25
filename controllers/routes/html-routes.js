@@ -19,7 +19,6 @@ router.get("/scrape", (req, res) => {
   //html body is requested
   request("http://www.medium.com/tag/javascript/", (error, response, html) => {
     //html loads into cheerio
-    console.log(html);
     const $ = cheerio.load(html);
     let result = {};
     const listDivs = $(".ae.fu");
@@ -31,12 +30,15 @@ router.get("/scrape", (req, res) => {
       result.title = $(this)
         .find("h2")
         .text();
+        console.log(result.title);
       result.link = $(this)
         .find("a")
         .attr("href");
+        console.log(result.link);
       result.summary = $(this)
         .find("h3")
         .text();
+        console.log(result.summary);
       //new Article created in the db using reply obj
       if((result.link) && (result.title)) {
         adb.addArticle(result, res);

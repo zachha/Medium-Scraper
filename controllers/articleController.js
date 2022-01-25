@@ -80,14 +80,14 @@ module.exports = {
 
   // updates an article to become 'saved' by the user 
   saveArticle: (thisId, res) => {
-    db.Article.update({ _id: thisId }, { $set: { isSaved: true } }, () => {
+    db.Article.updateOne({ _id: thisId }, { $set: { isSaved: true } }, () => {
       console.log("Article saved!");
       res.end();
     });
   },
  // updates an article to remove 'saved' 
   unsaveArticle: (thisId, res) => {
-    db.Article.update({ _id: thisId }, { $set: { isSaved: false } }, () => {
+    db.Article.updateOne({ _id: thisId }, { $set: { isSaved: false } }, () => {
       console.log("Article no longer saved!");
       res.end();
     });
