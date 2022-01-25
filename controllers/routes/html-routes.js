@@ -17,21 +17,21 @@ router.get("/", (req, res) => {
 // GET to scrape The Washington Post
 router.get("/scrape", (req, res) => {
   //html body is requested
-  request("http://www.medium.com/topic/javascript/", (error, response, html) => {
+  request("http://www.medium.com/tag/javascript/", (error, response, html) => {
     //html loads into cheerio
     const $ = cheerio.load(html);
     let result = {};
     // grabs the title and link for each article 
-    $("div.js-trackedPost").each(function(i, element) {
+    $("div.div.1.div.ae.fu").each(function(i, element) {
       result.category = "Javascript";
       result.title = $(this)
-        .find("a.u-block")
-        .attr("aria-label");
+        .find("h2")
+        .text();
       result.link = $(this)
-        .find("a.u-block")
+        .find("a")
         .attr("href");
       result.summary = $(this)
-        .find("h4.ui-summary")
+        .find("h3")
         .text();
       //new Article created in the db using reply obj
       if((result.link) && (result.title)) {
