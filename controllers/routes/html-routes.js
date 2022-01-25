@@ -22,7 +22,7 @@ router.get("/scrape", (req, res) => {
     console.log(html);
     const $ = cheerio.load(html);
     let result = {};
-    const listDivs = $(".ae__fu");
+    const listDivs = $(".ae.fu");
     console.log(listDivs.length);
     console.log("TEST");
     // grabs the title and link for each article 
