@@ -19,6 +19,7 @@ router.get("/scrape", (req, res) => {
   //html body is requested
   request("http://www.medium.com/tag/javascript/", (error, response, html) => {
     //html loads into cheerio
+    console.log(html);
     const $ = cheerio.load(html);
     let result = {};
     const listDivs = $(".ae__fu");
