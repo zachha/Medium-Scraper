@@ -21,7 +21,8 @@ router.get("/scrape", (req, res) => {
     //html loads into cheerio
     const $ = cheerio.load(html);
     let result = {};
-    const listDivs = $("div.1");
+    const listDivs = $("div.ae__fu");
+    console.log(listDivs);
     // grabs the title and link for each article 
     listDivs.each(function(i, element) {
       result.category = "Javascript";
