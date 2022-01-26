@@ -32,7 +32,7 @@ router.get("/scrape", (req, res) => {
         .text();
         console.log(result.title);
       result.link = $(this)
-        .find("a")
+        .find("a.ez")
         .attr("href");
         console.log(result.link);
       result.summary = $(this)
